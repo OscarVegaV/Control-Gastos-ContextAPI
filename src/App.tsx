@@ -17,8 +17,10 @@ function App() {
         <BudgetForm />
       </div>
 
+    
+      <Footer />
       
-        <Footer />
+
       
       
     </>

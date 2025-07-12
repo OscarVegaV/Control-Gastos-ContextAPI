@@ -1,24 +1,23 @@
 export default function Footer() {
 
   return (
-    <footer className="bg-dark footer mt-3">
-      <div className="container-xl text-center">
+    
+    <footer className="bg-blue-600 pt-4 mt-4 text-center fixed bottom-0 w-full">
+      <div>
         <img
-          className="img-fluid footer-logo"
+          className=" w-[135px] h-[135px] text-white mx-auto myLogo"
           src="/LogoWEB_W_250x250.svg"
           alt="footer logo"
         />
-        <p className="text-white text-center fs-6 mt-0 m-md-0">
+        <p className="text-white text-center mt-0 ">
           &copy;2025 All rights reserved.
-        </p>
-
-        <p className="text-white text-center fs-6 mt-4 m-md-0">
-          Created By 
-            <span className="text-primary">
-              Oscar Vega Venegas
+          Created By
+            <span style={{ color: '#e99401' }} className="font-bold">
+              Oscar Vega Venegas 
             </span>
         </p>
       </div>
+
       <div className="share text-center">
         <a
           href="https://github.com/OscarVegaV"

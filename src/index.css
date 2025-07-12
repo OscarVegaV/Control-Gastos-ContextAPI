@@ -1,2 +1,27 @@
 @import "tailwindcss";
 
+.share{
+  padding-bottom: 1rem;
+}
+.share a{   
+  height: 3rem;
+  width: 3rem;
+  line-height: 3rem;
+  font-size: 1.5rem;
+  border: .1rem solid rgba(255, 255, 255, 0.3);
+  margin: .3rem;
+  border-radius: 50%;
+  color: white;
+}
+.share a:hover{     
+  color: black;
+  background: var(--bs-primary);
+  background-color: #e99401;
+}
+
+.myLogo {
+  transition: transform 0.2s;
+}
+.myLogo:hover {
+  transform: scale(1.1);
+}
