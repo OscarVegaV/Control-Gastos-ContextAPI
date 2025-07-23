@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { useBudget } from "./hooks/useBudget";
+import { useBudget } from "../hooks/useBudget";
 
 
 export default function BudgetForm() {
