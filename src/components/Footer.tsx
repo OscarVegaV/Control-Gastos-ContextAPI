@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="bg-blue-600 pt-4 mt-4 text-center fixed bottom-0 w-full">
       <div>
         <img
-          className=" w-[135px] h-[135px] text-white mx-auto myLogo"
+          className=" w-[110px] h-[110px] text-white mx-auto myLogo"
           src="/LogoWEB_W_250x250.svg"
           alt="footer logo"
         />
