@@ -2,7 +2,7 @@ export default function Footer() {
 
   return (
     
-    <footer className="bg-blue-600 pt-4 mt-4 text-center fixed bottom-0 w-full">
+    <footer className="bg-blue-600 pt-4 mt-4 text-center w-full">
       <div>
         <img
           className=" w-[110px] h-[110px] text-white mx-auto myLogo"
