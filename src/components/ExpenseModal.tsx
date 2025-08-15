@@ -3,6 +3,7 @@ import { PlusCircleIcon } from '@heroicons/react/24/solid'
 import { Dialog, Transition, DialogPanel, TransitionChild} from '@headlessui/react'
 import { useBudget } from '../hooks/useBudget'
 import ExpenseForm from './ExpenseForm';
+
  
 export default function ExpenseModal() {
 
@@ -10,12 +11,13 @@ export default function ExpenseModal() {
  
     return (
         <>
-            <div className="fixed right-5 bottom-5 flex items-center justify-center">
+            {/* el boton + */}
+            <div className="fixed right-20 bottom-10 flex items-center justify-center mb-45">
                 <button
                     type="button"
                     onClick={() => dispatch({ type: 'show-modal' })}
                 >
-                    <PlusCircleIcon className='w-16 h-16 text-blue-600 rounded-full' />
+                    <PlusCircleIcon className='w-16 h-16 text-pink-600 rounded-full' />
                 </button>
             </div>
     
