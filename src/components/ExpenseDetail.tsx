@@ -56,7 +56,7 @@ export default function ExpenseDetail({ expense } : ExpenseDetailProps) {
 
           <div>
             <img 
-              src={`/icon_${categoryInfo.icon}.svg`} 
+              src={`./icon_${categoryInfo.icon}.svg`} 
               alt="Icono de Gasto"
               className="w-20 h-20 object-contain"
               loading="lazy"

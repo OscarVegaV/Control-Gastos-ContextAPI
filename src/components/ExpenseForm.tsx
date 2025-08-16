@@ -12,8 +12,7 @@ import { useBudget } from "../hooks/useBudget";
 export default function ExpenseForm() {
 
 	const [expense, setExpense] = useState<DraftExpense>({
-		// amount: 0, 
-		amount: +'',
+		amount: Number.NaN,           // 👈 antes: 0 
 		expenseName: '',
 		category: '',
 		date: new Date()
@@ -32,55 +31,74 @@ export default function ExpenseForm() {
 			}
 	}, [state.editingId, state.expenses]);
 
-	function handleChange(e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) {
-			const { name, value } = e.target;
-			const isAmountField = ['amount'].includes(name);
-			setExpense({
-					...expense,
-					[name]: isAmountField ? +value : value
-			});
-	} 
+
+	function handleChange(  e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement> ) {
+		const { name, value } = e.target;
+		setError(''); // 👈 limpia el error al tipear
+
+		if (name === 'amount') {
+			const parsed = value === '' ? Number.NaN : +value;
+			setExpense(prev => ({ ...prev, amount: parsed }));
+		} else {
+			setExpense(prev => ({ ...prev, [name]: value }));
+		}
+	}
+
+
+
 
 	const handleChangeDate = (value : value) => {
-			setExpense({
-					...expense,
-					date: value 
-			})
+		setError('');
+		setExpense({
+				...expense,
+				date: value 
+		})
 	};
 
-	const handleSubmit = (e:React.FormEvent<HTMLFormElement>)=> {
-		e.preventDefault()
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	e.preventDefault();
 
-		// validate
-		if (Object.values(expense).includes('')) {
-				setError('Todos los campos son obligatorios');
-				return
-		} 
-		// validar que no se exceda el presupuesto
-		if ((expense.amount - previousAmount) > remainingBudget) {
-				setError('El monto se excede del presupuesto');
-				return
-		}
+	const nameOk = expense.expenseName.trim().length > 0;
+	const categoryOk = expense.category.trim().length > 0;
+	const amountOk = Number.isFinite(expense.amount) && expense.amount > 0;
+	const dateOk =
+		expense.date instanceof Date
+		? !isNaN(expense.date.getTime())
+		: Boolean(expense.date); // por si DatePicker entrega string o Date
 
-		// agregar el gasto o actualizarlo
-		if (state.editingId) {
-				dispatch({ type: 'update-expense', payload: { expense: { id: state.editingId,  ...expense, } } });
-				
-		} else {
-				dispatch({ type: 'add-expense', payload: { expense } });
-		}
-
-		// resetear el formulario
-		setExpense({
-				// amount: 0,
-				amount: +'',
-				expenseName: '',
-				category: '',
-				date: new Date()
-		})
-
-		setPreviousAmount(0)
+	if (!nameOk || !categoryOk || !amountOk || !dateOk) {
+		setError('Todos los campos son obligatorios');
+		return;
 	}
+
+	// no exceder presupuesto
+	if ((expense.amount - previousAmount) > remainingBudget) {
+		setError('El monto se excede del presupuesto');
+		return;
+	}
+
+	// agregar o actualizar
+	if (state.editingId) {
+		dispatch({
+		type: 'update-expense',
+		payload: { expense: { id: state.editingId, ...expense } },
+		});
+	} else {
+		dispatch({ type: 'add-expense', payload: { expense } });
+	}
+
+	// reset
+	setExpense({
+		amount: Number.NaN,   // 👈 vuelve a quedar en blanco
+		expenseName: '',
+		category: '',
+		date: new Date(),
+	});
+
+	setPreviousAmount(0);
+	setError(''); // limpia el error si todo salió bien
+	};
+
 
 	return (
 		<form className="space-y-5" onSubmit={handleSubmit}> 
@@ -126,15 +144,18 @@ export default function ExpenseForm() {
 				</label>
 
 				<input
-						type="number"
-						id="amount"
-						placeholder="Añade el monto del gasto ej. 300"
-						className="bg-slate-100 p-2"                
-						name="amount"
-						onChange={handleChange}
-						value={expense.amount}
-						
-				/> 
+					type="number"
+					id="amount"
+					placeholder="Añade el monto del gasto ej. 300"
+					className="bg-slate-100 p-2"
+					name="amount"
+					onChange={handleChange}
+					value={Number.isNaN(expense.amount) ? '' : expense.amount}  // 👈 blanco si NaN
+					min={1}                                                      // 👈 evita 0/negativos
+					step="any"
+					inputMode="decimal"
+				/>
+
 			</div>
 
 			{/* Categoria */}
